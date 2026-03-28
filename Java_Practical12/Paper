@@ -1,0 +1,72 @@
+public class Pattern {
+
+    //Iterative
+    public static void printIterative(int n) {
+        System.out.println("Iterative Approach:");
+
+        int mid = n / 2;
+
+        for (int i = 0; i < n; i++) {
+
+            int stars;
+            if (i < mid)
+                stars = 2 * i + 1;
+            else
+                stars = 2 * (n - i) - 1;
+
+            int spaces = (n - stars) / 2;
+
+            for (int s = 0; s < spaces; s++) {
+                System.out.print("  ");
+            }
+
+            for (int j = 0; j < stars; j++) {
+                System.out.print("* ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    //Recursive
+    public static void printRecursive(int n, int i) {
+        if (i == n) return;
+
+        int mid = n / 2;
+        int stars;
+
+        if (i < mid)
+            stars = 2 * i + 1;
+        else
+            stars = 2 * (n - i) - 1;
+
+        int spaces = (n - stars) / 2;
+
+        printSpaces(spaces);
+        printStars(stars);
+        System.out.println();
+
+        printRecursive(n, i + 1);
+    }
+
+    public static void printSpaces(int count) {
+        if (count == 0) return;
+        System.out.print("  ");
+        printSpaces(count - 1);
+    }
+
+    public static void printStars(int count) {
+        if (count == 0) return;
+        System.out.print("* ");
+        printStars(count - 1);
+    }
+
+    public static void main(String[] args) {
+        int size = 5;
+
+        printIterative(size);
+
+        System.out.println("\nRecursive Approach:");
+        printRecursive(size, 0);
+    }
+}’
