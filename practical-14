@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+interface StudentInterface {
+
+    int MAX_MARKS = 100;
+
+    void addStudent(String name, int marks) throws Exception;
+    void displayStudent();
+
+    default void showRules() {
+        System.out.println("Marks must be between 0 to 100");
+    }
+
+    static void appInfo() {
+        System.out.println("=== Student Manager App ===");
+    }
+}
+
+class InvalidMarksException extends Exception {
+    InvalidMarksException(String msg) {
+        super(msg);
+    }
+}
+
+abstract class StudentOperations {
+
+    abstract void validateMarks(int marks) throws InvalidMarksException;
+
+    void log(String msg) {
+        System.out.println("LOG: " + msg);
+    }
+}
+
+class Student extends StudentOperations implements StudentInterface {
+
+    String name;
+    int marks;
+
+    public void addStudent(String name, int marks) throws InvalidMarksException {
+        validateMarks(marks);
+        this.name = name;
+        this.marks = marks;
+        log("Student Added Successfully");
+    }
+
+    public void displayStudent() {
+        System.out.println("Name  : " + name);
+        System.out.println("Marks : " + marks);
+    }
+
+    void validateMarks(int marks) throws InvalidMarksException {
+        if (marks < 0 || marks > MAX_MARKS) {
+            throw new InvalidMarksException("Invalid Marks Entered!");
+        }
+    }
+}
+
+public class Word {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        Student s = new Student();
+
+        StudentInterface.appInfo();
+
+        try {
+            System.out.print("Enter Name: ");
+            String name = sc.nextLine();
+
+            System.out.print("Enter Marks: ");
+            int marks = sc.nextInt();
+
+            s.addStudent(name, marks);
+
+            System.out.println("\n--- STUDENT DETAILS ---");
+            s.displayStudent();
+
+            s.showRules();
+
+        } catch (InvalidMarksException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        sc.close();
+    }
+}
